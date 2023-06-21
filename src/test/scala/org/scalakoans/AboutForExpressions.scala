@@ -3,8 +3,7 @@ package org.scalakoans
 import support.KoanSuite
 import support.BlankValues._
 
-
-class AboutForExpressions extends KoanSuite  {
+class AboutForExpressions extends KoanSuite {
 
   koan("For loops can be simple") {
     val someNumbers = Range(0, 10)
@@ -12,7 +11,7 @@ class AboutForExpressions extends KoanSuite  {
     for (i <- someNumbers)
       sum += i
 
-    sum should equal(__)
+    sum should equal(45)
   }
 
   koan("For loops can contain additional logic") {
@@ -22,7 +21,7 @@ class AboutForExpressions extends KoanSuite  {
     for (i <- someNumbers)
       if (i % 2 == 0) sum += i
 
-    sum should equal(__)
+    sum should equal(20)
   }
   koan("For loops can produce a list which can be summed easily") {
     val someNumbers = Range(0, 10)
@@ -31,22 +30,27 @@ class AboutForExpressions extends KoanSuite  {
       for {
         i <- someNumbers
         if ((i % 2) == 0)
-      }
-      yield i
+      } yield i
 
-    theList.reduceLeft(_ + _) should be(__)
+    theList.reduceLeft(_ + _) should be(20)
   }
 
-  koan("For expressions can nest, with later generators varying more rapidly than earlier ones") {
+  koan(
+    "For expressions can nest, with later generators varying more rapidly than earlier ones"
+  ) {
     val xValues = Range(1, 5)
     val yValues = Range(1, 3)
     val coordinates = for {
       x <- xValues
       y <- yValues
-    }
-    yield (x, y)
-    coordinates(4) should be(__)
+    } yield (x, y)
+    coordinates(4) should be((3, 1))
   }
-
+  // https://alvinalexander.com/scala/how-to-use-multiple-generators-scala-for-expressions-loops/
+  // 1,1
+  // 1,2
+  // 2,1
+  // 2,2
+  // 3,1
 
 }
