@@ -3,17 +3,21 @@ package org.scalakoans
 import support.KoanSuite
 import support.BlankValues.__
 
-class AboutTypeSignatures extends KoanSuite  {
+class AboutTypeSignatures extends KoanSuite {
   koan("In Java you declare a generic type within a <>, in Scala it is []") {
-    val z: List[String] = "Do" :: "Re" :: "Mi" :: "Fa" :: "So" :: "La" :: "Te" :: "Do" :: Nil
-    z(3) should be(__)
+    val z: List[String] =
+      "Do" :: "Re" :: "Mi" :: "Fa" :: "So" :: "La" :: "Te" :: "Do" :: Nil
+    z(3) should be("Fa")
   }
 
   koan("Most of the time, Scala will infer the type and [] are optional") {
-    val z = "Do" :: "Re" :: "Mi" :: "Fa" :: "So" :: "La" :: "Te" :: "Do" :: Nil //Infers that the list assigned to variable is of type List[String]
+    val z =
+      "Do" :: "Re" :: "Mi" :: "Fa" :: "So" :: "La" :: "Te" :: "Do" :: Nil // Infers that the list assigned to variable is of type List[String]
   }
 
-  koan("A trait can be declared containing a type, where a concrete implmenter will satisfy the type") {
+  koan(
+    "A trait can be declared containing a type, where a concrete implmenter will satisfy the type"
+  ) {
     trait Randomizer[A] {
       def draw: A
     }
@@ -29,19 +33,25 @@ class AboutTypeSignatures extends KoanSuite  {
     intRand.draw should be < Int.MaxValue
   }
 
-  koan("Class meta-information can be retrieved by class name by using classOf[className]") {
-    classOf[String].getCanonicalName should be(__)
-    classOf[String].getSimpleName should be(__)
+  koan(
+    "Class meta-information can be retrieved by class name by using classOf[className]"
+  ) {
+    classOf[String].getCanonicalName should be("java.lang.String")
+    classOf[String].getSimpleName should be("String")
   }
 
-  koan("Class meta-information can be derived from an object reference using getClass()") {
+  koan(
+    "Class meta-information can be derived from an object reference using getClass()"
+  ) {
     val zoom = "zoom"
-    zoom.getClass should be(__)
-    zoom.getClass.getCanonicalName should be(__)
-    zoom.getClass.getSimpleName should be(__)
+    zoom.getClass should be(classOf[String])
+    zoom.getClass.getCanonicalName should be("java.lang.String")
+    zoom.getClass.getSimpleName should be("String")
   }
 
-  koan("isInstanceOf[className] is used to determine the if an object reference is an instance of given class") {
+  koan(
+    "isInstanceOf[className] is used to determine the if an object reference is an instance of given class"
+  ) {
     trait Randomizer[A] {
       def draw: A
     }
@@ -54,7 +64,7 @@ class AboutTypeSignatures extends KoanSuite  {
     }
 
     val intRand = new IntRandomizer
-    intRand.draw.isInstanceOf[Int] should be(__)
+    intRand.draw.isInstanceOf[Int] should be(true)
   }
 
   koan("asInstanceOf[className] is used to cast one reference to another") {
@@ -74,8 +84,10 @@ class AboutTypeSignatures extends KoanSuite  {
     val intRand2 = rand.asInstanceOf[IntRandomizer]
   }
 
-  koan("""asInstanceOf[className] will throw a ClassCastException if a class derived from
-         |   and the class target aren't from the same inheritance branch""") {
+  koan(
+    """asInstanceOf[className] will throw a ClassCastException if a class derived from
+         |   and the class target aren't from the same inheritance branch"""
+  ) {
     trait Randomizer[A] {
       def draw: A
     }
@@ -90,16 +102,17 @@ class AboutTypeSignatures extends KoanSuite  {
     val intRand = new IntRandomizer
 
     intercept[ClassCastException] {
-      intRand.asInstanceOf[String] //intRand cannot be cast to String
+      intRand.asInstanceOf[String] // intRand cannot be cast to String
     }
   }
 
-  koan("null.asInstanceOf[className] can be used to generate basic default values") {
-    null.asInstanceOf[String] should be(__)
-    null.asInstanceOf[Int] should be(__)
-    null.asInstanceOf[Short] should be(__)
+  koan(
+    "null.asInstanceOf[className] can be used to generate basic default values"
+  ) {
+    null.asInstanceOf[String] should be(null)
+    null.asInstanceOf[Int] should be(0)
+    null.asInstanceOf[Short] should be(0)
   }
-
 
   /* TODO: This probably needs to move to another category,
      TODO: since this class is supposed to be about type signatures  */
@@ -110,33 +123,34 @@ class AboutTypeSignatures extends KoanSuite  {
     abstract class Parent {
       def add(x: Int): Int
 
-      //this is considered abstract
+      // this is considered abstract
     }
 
     class Child extends Parent {
       def add(x: Int): Int = x + 3
     }
 
-    new Child().add(3) should be(__)
+    new Child().add(3) should be(6)
   }
 
   /* TODO:  This probably needs to move to another category,
      TODO:  since this class is supposed to be about type signatures  */
-  koan("""Same koan as above. Except that concrete methods
-         |   can have the modifier override to designate that it overrides a parent class.""") {
+  koan(
+    """Same koan as above. Except that concrete methods
+         |   can have the modifier override to designate that it overrides a parent class."""
+  ) {
     abstract class Parent {
-      def add(x: Int): Int
+      def add(x: Int): Int = x + 2
 
-      //this is considered abstract
+      // this is considered abstract
     }
 
     class Child extends Parent {
       override def add(x: Int): Int = x + 3
 
-      //explicitly
+      // explicitly
     }
 
-    new Child().add(3) should be(__)
+    new Child().add(3) should be(6)
   }
 }
-
