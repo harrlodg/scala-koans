@@ -23,7 +23,7 @@ class AboutOptions extends KoanSuite {
     }
   }
 
-  koan("Provide a default value for None") {
+  koan("Provide a default value for None") {  
     val value1 = maybeItWillReturnSomething(true)
     val value2 = maybeItWillReturnSomething(false)
 
