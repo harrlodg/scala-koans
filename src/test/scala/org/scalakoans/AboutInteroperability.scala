@@ -4,7 +4,7 @@ import support.KoanSuite
 import support.BlankValues.__
 import scala.jdk.CollectionConverters._
 
-class AboutInteroperability extends KoanSuite  {
+class AboutInteroperability extends KoanSuite {
   koan("""You can interop with a java class and it's use of collections by importing
           |   scala.collection.JavaConversions and letting scala implicitly convert from a Scala collection type
           |   into a Java collection type.  See AboutImplicits Koan Suite for more details and see src/test/java for the
@@ -14,15 +14,17 @@ class AboutInteroperability extends KoanSuite  {
     import scala.jdk.CollectionConverters._
     val d = new SomeJavaClass
     val e = List("one", "two", "three")
-    d.findSizeOfRawType(e.asJava) should be(__)
+    d.findSizeOfRawType(e.asJava) should be(3)
   }
 
   class Boat(size: Int, manufacturer: String)
 
-  koan("""This koan converts a scala List of Boat (our own class) to java List of unknown <?> type.""") {
+  koan(
+    """This koan converts a scala List of Boat (our own class) to java List of unknown <?> type."""
+  ) {
     import scala.jdk.CollectionConverters._
     val d = new SomeJavaClass
     val e = List(new Boat(33, "Skyway"), new Boat(35, "New Boat"))
-    d.findSizeOfUnknownType(e.asJava) should be(__)
+    d.findSizeOfUnknownType(e.asJava) should be(2)
   }
 }
